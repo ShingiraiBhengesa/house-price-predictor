@@ -1,6 +1,6 @@
 # 🏡 House Price Prediction Web App
 
-A Machine Learning project that predicts house prices based on input features such as square footage, number of bedrooms, location, and more. Built using Python, Scikit-learn, Pandas, and deployed with Flask. Designed as part of my AI/ML internship preparation portfolio (March–October 2025).
+A Machine Learning project that predicts house prices based on input features such as square footage, number of bedrooms, location, and more. Built using Python, Scikit-learn, Pandas, and deployed with Flask. 
 
 ## 🚀 Demo
 🔗 [Live Demo](#) — *(Link to be updated once deployed)*
