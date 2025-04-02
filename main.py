@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
+import joblib
+
 
 # Load dataset
 housing = fetch_california_housing()
@@ -46,3 +48,8 @@ print(f"R²: {r2_score(y_test, lr_pred):.3f}")
 print("Random Forest:")
 print(f"RMSE: {mean_squared_error(y_test, rf_pred, squared=False):.3f}")
 print(f"R²: {r2_score(y_test, rf_pred):.3f}")
+
+
+# Model training and evaluation
+joblib.dump(rf_model, 'rf_model.pkl')
+joblib.dump(scaler, 'scaler.pkl')  # Save scaler too
