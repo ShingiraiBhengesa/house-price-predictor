@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>House Price Predictor</title>
+    <title>Easy House Price Predictor</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -13,6 +13,7 @@
             --accent-color: #e74c3c;
             --light-color: #ecf0f1;
             --dark-color: #2c3e50;
+            --success-color: #2ecc71;
         }
         
         body {
@@ -133,6 +134,66 @@
             border: none;
         }
         
+        .step-number {
+            background-color: var(--secondary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .explanation-card {
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--secondary-color);
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 5px;
+        }
+        
+        .simple-form-section {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        
+        .range-slider {
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .visualization-explanation {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+        
+        .graph-container {
+            position: relative;
+        }
+        
+        .graph-annotation {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
         @media (max-width: 768px) {
             .hero-section {
                 padding: 2rem 0;
@@ -149,7 +210,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-home me-2"></i>House Price Predictor
+                <i class="fas fa-home me-2"></i>Easy House Price Predictor
             </a>
         </div>
     </nav>
@@ -157,122 +218,176 @@
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container text-center">
-            <h1 class="display-4 fw-bold">Predict Your House Price</h1>
-            <p class="lead">Enter your house details below and get an instant price prediction using our advanced machine learning model.</p>
+            <h1 class="display-4 fw-bold">Find Out How Much a House is Worth</h1>
+            <p class="lead">Just answer a few simple questions about the house and neighborhood to get an estimated price</p>
         </div>
     </section>
     
     <div class="container">
+        <!-- Introduction -->
+        <div class="explanation-card mb-4">
+            <h4><i class="fas fa-info-circle me-2 text-primary"></i>How This Works</h4>
+            <p>This tool uses machine learning to estimate house prices in California based on information about the house and neighborhood. Just follow these simple steps:</p>
+            <div class="row mt-3">
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="step-number">1</div>
+                        <div>Fill in the house details below</div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="step-number">2</div>
+                        <div>Click the "Get Price Estimate" button</div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="d-flex align-items-center">
+                        <div class="step-number">3</div>
+                        <div>See your estimated house price</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <div class="row">
             <!-- Input Form -->
             <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-edit me-2"></i>House Details
+                        <i class="fas fa-edit me-2"></i>Tell Us About The House
                     </div>
                     <div class="card-body">
                         <form method="POST" id="predictionForm">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="MedInc" class="form-label">
-                                        Median Income
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Median income in block group (in tens of thousands)"></i>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
-                                        <input type="number" class="form-control" id="MedInc" name="MedInc" placeholder="e.g., 8.3" step="0.1" min="0" required>
+                            <!-- Income Section -->
+                            <div class="simple-form-section">
+                                <h5 class="mb-3">Neighborhood Income Level</h5>
+                                <p class="text-muted mb-3">How wealthy is the neighborhood where the house is located?</p>
+                                
+                                <label for="MedInc" class="form-label">
+                                    Average Household Income in the Area
+                                </label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
+                                    <select class="form-select" id="MedInc" name="MedInc" required>
+                                        <option value="2.5">Low Income (around $25,000/year)</option>
+                                        <option value="5.0" selected>Middle Income (around $50,000/year)</option>
+                                        <option value="8.5">Upper Middle Income (around $85,000/year)</option>
+                                        <option value="12.0">High Income (around $120,000/year)</option>
+                                    </select>
+                                </div>
+                                <small class="text-muted">This helps estimate property values based on neighborhood economics</small>
+                            </div>
+                            
+                            <!-- House Details Section -->
+                            <div class="simple-form-section">
+                                <h5 class="mb-3">House Details</h5>
+                                <p class="text-muted mb-3">Tell us about the physical characteristics of the house</p>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="HouseAge" class="form-label">How old is the house?</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                                            <select class="form-select" id="HouseAge" name="HouseAge" required>
+                                                <option value="5">Nearly New (0-10 years)</option>
+                                                <option value="15" selected>Relatively New (11-20 years)</option>
+                                                <option value="30">Established (21-40 years)</option>
+                                                <option value="45">Older Home (40+ years)</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <small class="text-muted">Typical range: 1.0 - 15.0</small>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="AveRooms" class="form-label">How many rooms in total?</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-door-open"></i></span>
+                                            <select class="form-select" id="AveRooms" name="AveRooms" required>
+                                                <option value="4">Small (3-5 rooms)</option>
+                                                <option value="6" selected>Medium (6-7 rooms)</option>
+                                                <option value="8">Large (8-9 rooms)</option>
+                                                <option value="10">Very Large (10+ rooms)</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <div class="col-md-6 mb-3">
-                                    <label for="HouseAge" class="form-label">
-                                        House Age
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Median house age in block group (in years)"></i>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                        <input type="number" class="form-control" id="HouseAge" name="HouseAge" placeholder="e.g., 20" min="0" required>
-                                    </div>
-                                    <small class="text-muted">Typical range: 1 - 50 years</small>
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="AveRooms" class="form-label">
-                                        Average Rooms
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Average number of rooms per household"></i>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-door-open"></i></span>
-                                        <input type="number" class="form-control" id="AveRooms" name="AveRooms" placeholder="e.g., 6.0" step="0.1" min="0" required>
-                                    </div>
-                                    <small class="text-muted">Typical range: 3.0 - 10.0</small>
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="AveBedrms" class="form-label">
-                                        Average Bedrooms
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Average number of bedrooms per household"></i>
-                                    </label>
+                                <div class="mb-3">
+                                    <label for="AveBedrms" class="form-label">How many bedrooms?</label>
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="fas fa-bed"></i></span>
-                                        <input type="number" class="form-control" id="AveBedrms" name="AveBedrms" placeholder="e.g., 1.0" step="0.1" min="0" required>
+                                        <select class="form-select" id="AveBedrms" name="AveBedrms" required>
+                                            <option value="1">1 Bedroom</option>
+                                            <option value="2" selected>2 Bedrooms</option>
+                                            <option value="3">3 Bedrooms</option>
+                                            <option value="4">4+ Bedrooms</option>
+                                        </select>
                                     </div>
-                                    <small class="text-muted">Typical range: 1.0 - 4.0</small>
+                                </div>
+                            </div>
+                            
+                            <!-- Neighborhood Section -->
+                            <div class="simple-form-section">
+                                <h5 class="mb-3">Neighborhood Information</h5>
+                                <p class="text-muted mb-3">Tell us about the area where the house is located</p>
+                                
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="Population" class="form-label">How populated is the area?</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-users"></i></span>
+                                            <select class="form-select" id="Population" name="Population" required>
+                                                <option value="500">Low Population (Rural)</option>
+                                                <option value="1500" selected>Medium Population (Suburban)</option>
+                                                <option value="3000">High Population (Urban)</option>
+                                                <option value="4500">Very High Population (Dense Urban)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6 mb-3">
+                                        <label for="AveOccup" class="form-label">Average household size in the area</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-user-friends"></i></span>
+                                            <select class="form-select" id="AveOccup" name="AveOccup" required>
+                                                <option value="1.5">Small (1-2 people)</option>
+                                                <option value="3" selected>Medium (3-4 people)</option>
+                                                <option value="5">Large (5+ people)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Location Section -->
+                            <div class="simple-form-section">
+                                <h5 class="mb-3">Location in California</h5>
+                                <p class="text-muted mb-3">Where in California is the house located?</p>
+                                
+                                <div class="row">
+                                    <div class="col-12 mb-3">
+                                        <label class="form-label">Select the region</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                                            <select class="form-select" id="location" onchange="updateCoordinates()">
+                                                <option value="sf" selected>San Francisco Bay Area</option>
+                                                <option value="la">Los Angeles Area</option>
+                                                <option value="sd">San Diego Area</option>
+                                                <option value="sac">Sacramento Area</option>
+                                                <option value="central">Central California</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                <div class="col-md-6 mb-3">
-                                    <label for="Population" class="form-label">
-                                        Population
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Block group population"></i>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-users"></i></span>
-                                        <input type="number" class="form-control" id="Population" name="Population" placeholder="e.g., 1000" min="0" required>
-                                    </div>
-                                    <small class="text-muted">Typical range: 100 - 5000</small>
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="AveOccup" class="form-label">
-                                        Average Occupancy
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Average number of household members"></i>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-user-friends"></i></span>
-                                        <input type="number" class="form-control" id="AveOccup" name="AveOccup" placeholder="e.g., 3.0" step="0.1" min="0" required>
-                                    </div>
-                                    <small class="text-muted">Typical range: 1.0 - 6.0</small>
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="Latitude" class="form-label">
-                                        Latitude
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Block group latitude coordinate"></i>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                                        <input type="number" class="form-control" id="Latitude" name="Latitude" placeholder="e.g., 37.88" step="0.01" required>
-                                    </div>
-                                    <small class="text-muted">California range: 32.0 - 42.0</small>
-                                </div>
-                                
-                                <div class="col-md-6 mb-3">
-                                    <label for="Longitude" class="form-label">
-                                        Longitude
-                                        <i class="fas fa-info-circle tooltip-icon" data-bs-toggle="tooltip" title="Block group longitude coordinate"></i>
-                                    </label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
-                                        <input type="number" class="form-control" id="Longitude" name="Longitude" placeholder="e.g., -122.23" step="0.01" required>
-                                    </div>
-                                    <small class="text-muted">California range: -124.0 to -114.0</small>
-                                </div>
+                                <!-- Hidden fields for coordinates -->
+                                <input type="hidden" id="Latitude" name="Latitude" value="37.8">
+                                <input type="hidden" id="Longitude" name="Longitude" value="-122.4">
                             </div>
                             
                             <div class="d-grid gap-2 mt-4">
                                 <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-calculator me-2"></i>Predict House Price
+                                    <i class="fas fa-calculator me-2"></i>Get Price Estimate
                                 </button>
                             </div>
                         </form>
@@ -284,35 +399,35 @@
             <div class="col-lg-4">
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-chart-line me-2"></i>About Our Model
+                        <i class="fas fa-info-circle me-2"></i>About This Tool
                     </div>
                     <div class="card-body">
-                        <p>Our house price prediction model uses advanced machine learning algorithms trained on the California Housing Dataset.</p>
+                        <p>This house price estimator uses real California housing data to predict prices based on:</p>
                         <div class="d-flex align-items-center mb-3">
                             <div class="feature-icon">
-                                <i class="fas fa-brain"></i>
+                                <i class="fas fa-map-marked-alt"></i>
                             </div>
                             <div>
-                                <h5 class="mb-0">Random Forest</h5>
-                                <small>Advanced ensemble learning</small>
+                                <h5 class="mb-0">Location</h5>
+                                <small>Where the house is in California</small>
                             </div>
                         </div>
                         <div class="d-flex align-items-center mb-3">
                             <div class="feature-icon">
-                                <i class="fas fa-chart-bar"></i>
+                                <i class="fas fa-home"></i>
                             </div>
                             <div>
-                                <h5 class="mb-0">High Accuracy</h5>
-                                <small>Low prediction error</small>
+                                <h5 class="mb-0">House Features</h5>
+                                <small>Size, age, and number of rooms</small>
                             </div>
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="feature-icon">
-                                <i class="fas fa-bolt"></i>
+                                <i class="fas fa-users"></i>
                             </div>
                             <div>
-                                <h5 class="mb-0">Instant Results</h5>
-                                <small>Get predictions in seconds</small>
+                                <h5 class="mb-0">Neighborhood</h5>
+                                <small>Income level and population</small>
                             </div>
                         </div>
                     </div>
@@ -332,17 +447,17 @@
                 {% if prediction %}
                 <div class="card result-card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-tags me-2"></i>Prediction Result
+                        <i class="fas fa-tags me-2"></i>Your House Price Estimate
                     </div>
                     <div class="card-body text-center">
-                        <h5 class="card-title">Estimated House Price</h5>
+                        <h5 class="card-title">Estimated Value</h5>
                         <p class="prediction-result mb-0">{{ prediction }}</p>
-                        <p class="text-muted mt-2">Based on the provided features</p>
+                        <p class="text-muted mt-2">Based on your inputs</p>
                         
                         {% if prediction_details and prediction_details.confidence %}
                         <div class="mt-3">
                             <div class="d-flex justify-content-between mb-1">
-                                <span>Confidence:</span>
+                                <span>How confident are we?</span>
                                 <span>{{ (prediction_details.confidence * 100)|round }}%</span>
                             </div>
                             <div class="progress" style="height: 10px;">
@@ -356,7 +471,7 @@
                         
                         {% if prediction_details and prediction_details.warnings %}
                         <div class="alert alert-warning mt-3">
-                            <h6 class="mb-2"><i class="fas fa-exclamation-triangle me-2"></i>Warnings</h6>
+                            <h6 class="mb-2"><i class="fas fa-exclamation-triangle me-2"></i>Things to Consider</h6>
                             <ul class="mb-0 text-start">
                                 {% for warning in prediction_details.warnings %}
                                 <li>{{ warning }}</li>
@@ -366,21 +481,41 @@
                         {% endif %}
                         
                         <hr>
-                        <p class="mb-0"><small>Note: This is an estimate based on historical data and may vary from actual market prices.</small></p>
+                        <p class="mb-0"><small>Remember: This is an estimate based on similar houses in California and may differ from actual market prices.</small></p>
                     </div>
                 </div>
                 
                 {% if prediction_details and prediction_details.feature_importance %}
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-chart-pie me-2"></i>Feature Importance
+                        <i class="fas fa-chart-pie me-2"></i>What Affected Your Price Most?
                     </div>
                     <div class="card-body">
-                        <p class="text-muted mb-3">These features had the most impact on your prediction:</p>
+                        <p class="text-muted mb-3">These factors had the biggest impact on your house price:</p>
                         {% for feature, importance in prediction_details.feature_importance[:4] %}
                         <div class="mb-3">
                             <div class="d-flex justify-content-between mb-1">
-                                <span>{{ feature }}</span>
+                                <span>
+                                    {% if feature == 'MedInc' %}
+                                        Neighborhood Income
+                                    {% elif feature == 'HouseAge' %}
+                                        House Age
+                                    {% elif feature == 'AveRooms' %}
+                                        Number of Rooms
+                                    {% elif feature == 'AveBedrms' %}
+                                        Number of Bedrooms
+                                    {% elif feature == 'Population' %}
+                                        Area Population
+                                    {% elif feature == 'AveOccup' %}
+                                        Household Size
+                                    {% elif feature == 'Latitude' %}
+                                        North/South Location
+                                    {% elif feature == 'Longitude' %}
+                                        East/West Location
+                                    {% else %}
+                                        {{ feature }}
+                                    {% endif %}
+                                </span>
                                 <span>{{ (importance * 100)|round }}%</span>
                             </div>
                             <div class="progress" style="height: 8px;">
@@ -399,7 +534,7 @@
                 {% if visualizations %}
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-chart-line me-2"></i>Model Visualizations
+                        <i class="fas fa-chart-line me-2"></i>How Our Predictions Compare to Real Prices
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -409,8 +544,15 @@
                                     <div class="card-header bg-secondary text-white">
                                         <h5 class="mb-0">{{ viz.title }}</h5>
                                     </div>
-                                    <div class="card-body p-0">
+                                    <div class="card-body p-0 graph-container">
                                         <img src="{{ url_for('static', filename=viz.file) }}" class="img-fluid" alt="{{ viz.title }}">
+                                        
+                                        {% if viz.file == 'real_vs_predicted.png' %}
+                                        <div class="visualization-explanation">
+                                            <h6><i class="fas fa-info-circle me-2"></i>What This Graph Shows</h6>
+                                            <p class="mb-0">Each dot represents a house. The closer dots are to the red line, the more accurate our prediction. Most dots are close to the line, showing our predictions are usually accurate.</p>
+                                        </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -426,7 +568,7 @@
     <!-- Footer -->
     <footer class="text-center">
         <div class="container">
-            <p class="mb-0">© 2025 House Price Predictor | Built with Machine Learning</p>
+            <p class="mb-0">© 2025 Easy House Price Predictor | Simple, Accurate Estimates</p>
         </div>
     </footer>
     
@@ -452,6 +594,40 @@
                 });
             }
         });
+        
+        // Update coordinates based on selected region
+        function updateCoordinates() {
+            const locationSelect = document.getElementById('location');
+            const latitudeInput = document.getElementById('Latitude');
+            const longitudeInput = document.getElementById('Longitude');
+            
+            // Set coordinates based on selected region
+            switch(locationSelect.value) {
+                case 'sf':
+                    latitudeInput.value = '37.8';
+                    longitudeInput.value = '-122.4';
+                    break;
+                case 'la':
+                    latitudeInput.value = '34.0';
+                    longitudeInput.value = '-118.2';
+                    break;
+                case 'sd':
+                    latitudeInput.value = '32.7';
+                    longitudeInput.value = '-117.2';
+                    break;
+                case 'sac':
+                    latitudeInput.value = '38.6';
+                    longitudeInput.value = '-121.5';
+                    break;
+                case 'central':
+                    latitudeInput.value = '36.7';
+                    longitudeInput.value = '-119.8';
+                    break;
+                default:
+                    latitudeInput.value = '37.8';
+                    longitudeInput.value = '-122.4';
+            }
+        }
     </script>
 </body>
 </html>

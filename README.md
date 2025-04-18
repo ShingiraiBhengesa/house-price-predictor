@@ -15,7 +15,7 @@ A web application that predicts house prices in California using machine learnin
 - [Model Information](#model-information)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Screenshots](#screenshots)
+- [User Interface](#user-interface)
 - [Model Performance](#model-performance)
 - [Technologies Used](#technologies-used)
 - [Future Improvements](#future-improvements)
@@ -31,9 +31,10 @@ The web interface provides an intuitive form for entering housing details and di
 
 - **User-friendly Web Interface**: Clean, responsive design with Bootstrap
 - **Real-time Predictions**: Instant house price predictions based on user inputs
+- **Simplified Input Form**: Easy-to-understand options with helpful descriptions
 - **Data Validation**: Input validation with helpful tooltips and typical value ranges
 - **Confidence Metrics**: Displays prediction confidence and feature importance
-- **Interactive Visualizations**: Shows model performance and feature relationships
+- **Interactive Visualizations**: Shows model performance with clear explanations
 - **Responsive Design**: Works on desktop and mobile devices
 
 ## Project Structure
@@ -46,10 +47,7 @@ house-price-predictor/
 ├── scaler.pkl              # Feature scaler for data preprocessing
 ├── real_vs_predicted.png   # Model performance visualization
 ├── static/                 # Static files (images, CSS)
-│   ├── real_vs_predicted.png
-│   ├── feature_importance.png
-│   ├── correlation_heatmap.png
-│   └── error_distribution.png
+│   └── real_vs_predicted.png
 ├── templates/              # HTML templates
 │   └── index.html          # Main web interface
 └── README.md               # Project documentation
@@ -139,77 +137,35 @@ http://127.0.0.1:5000
 
 ### Making Predictions
 
-1. Fill in the form with housing details
-2. Click the "Predict House Price" button
+1. Fill in the house details using the simplified form
+2. Click the "Get Price Estimate" button
 3. View the predicted price and additional information
 
-## Screenshots
+## User Interface
 
-### Web Interface
+The application features a user-friendly interface designed to be accessible to all users, regardless of their technical background:
 
-The application features a clean, modern interface with an intuitive form for entering housing details:
+### Key UI Features
 
-![Web Interface Screenshot](static/web_interface.jpg)
+1. **Step-by-Step Guidance**: Clear instructions guide users through the prediction process
+2. **Simplified Input Options**: Drop-down menus with plain language options instead of technical numeric inputs
+3. **Visual Sections**: Organized sections for different types of information (house details, neighborhood, location)
+4. **Helpful Explanations**: Each input field includes a description of what it means and why it matters
+5. **Location Selection**: Simple region selection for California locations instead of requiring exact coordinates
+6. **Clear Results**: Easy-to-understand prediction results with confidence indicators
+7. **Visualization Explanations**: Plain language descriptions of what the graphs show
 
-*Note: The actual web interface looks like the image below when running the application*
+### Real vs. Predicted Prices Visualization
 
-```
-+-----------------------------------------------+
-|  House Price Predictor                      |
-+-----------------------------------------------+
-|                                             |
-|  Predict Your House Price                   |
-|  Enter your house details below...          |
-|                                             |
-|  +-----------------------------------+      |
-|  | House Details                     |      |
-|  +-----------------------------------+      |
-|  | Median Income: [____]             |      |
-|  | House Age: [____]                 |      |
-|  | Average Rooms: [____]             |      |
-|  | Average Bedrooms: [____]          |      |
-|  | Population: [____]                |      |
-|  | Average Occupancy: [____]         |      |
-|  | Latitude: [____]                  |      |
-|  | Longitude: [____]                 |      |
-|  |                                   |      |
-|  | [Predict House Price]             |      |
-|  +-----------------------------------+      |
-|                                             |
-|  +-----------------------------------+      |
-|  | Prediction Result                 |      |
-|  +-----------------------------------+      |
-|  | Estimated House Price: $425,000   |      |
-|  | Confidence: 85%                   |      |
-|  | [Progress bar]                    |      |
-|  +-----------------------------------+      |
-|                                             |
-+-----------------------------------------------+
-```
-
-### Model Visualizations
-
-The application includes visualizations to help understand the model's performance:
-
-#### Real vs. Predicted Prices
-This visualization shows how well the model's predictions match actual house prices:
+The application includes a visualization showing how well the model's predictions match actual house prices:
 
 ![Real vs Predicted](static/real_vs_predicted.png)
 
-#### Feature Importance
-This chart shows which features have the most impact on house price predictions:
-
-![Feature Importance](static/feature_importance.png)
-
-#### Correlation Heatmap
-This visualization shows the relationships between different features:
-
-![Correlation Heatmap](static/correlation_heatmap.png)
-
-#### Error Distribution
-This chart shows the distribution of prediction errors:
-
-![Error Distribution](static/error_distribution.png)
+This graph shows:
+- Each dot represents a house
+- The red line represents perfect prediction (where predicted price = actual price)
+- Dots close to the line indicate accurate predictions
+- Most dots cluster near the line, showing the model's predictions are generally accurate
 
 ## Model Performance
 
