@@ -32,3 +32,16 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, 
 print("\nTraining data size:", X_train.shape)
 print("Testing data size:", X_test.shape)
 
+# Make the model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Guess prices for the test data
+predictions = model.predict(X_test)
+
+# Check how good it is
+rmse = mean_squared_error(y_test, predictions, squared=False)
+r2 = r2_score(y_test, predictions)
+print("\nLinear Regression Results:")
+print("RMSE (error):", rmse)
+print("R² (fit):", r2)
