@@ -534,29 +534,103 @@
                 {% if visualizations %}
                 <div class="card mb-4">
                     <div class="card-header">
-                        <i class="fas fa-chart-line me-2"></i>How Our Predictions Compare to Real Prices
+                        <i class="fas fa-chart-line me-2"></i>Data Visualizations
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            {% for viz in visualizations %}
-                            <div class="col-12 mb-4">
-                                <div class="card">
-                                    <div class="card-header bg-secondary text-white">
-                                        <h5 class="mb-0">{{ viz.title }}</h5>
+                        <!-- Visualization Navigation Tabs -->
+                        <ul class="nav nav-tabs mb-3" id="vizTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="scatter-tab" data-bs-toggle="tab" data-bs-target="#scatter-content" type="button" role="tab" aria-controls="scatter-content" aria-selected="true">
+                                    <i class="fas fa-chart-scatter me-1"></i>Accuracy
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="bar-tab" data-bs-toggle="tab" data-bs-target="#bar-content" type="button" role="tab" aria-controls="bar-content" aria-selected="false">
+                                    <i class="fas fa-chart-bar me-1"></i>Features
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="heatmap-tab" data-bs-toggle="tab" data-bs-target="#heatmap-content" type="button" role="tab" aria-controls="heatmap-content" aria-selected="false">
+                                    <i class="fas fa-th me-1"></i>Correlations
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="histogram-tab" data-bs-toggle="tab" data-bs-target="#histogram-content" type="button" role="tab" aria-controls="histogram-content" aria-selected="false">
+                                    <i class="fas fa-chart-area me-1"></i>Distribution
+                                </button>
+                            </li>
+                        </ul>
+                        
+                        <!-- Visualization Tab Content -->
+                        <div class="tab-content" id="vizTabContent">
+                            <!-- Scatter Plot Tab (Real vs Predicted) -->
+                            <div class="tab-pane fade show active" id="scatter-content" role="tabpanel" aria-labelledby="scatter-tab">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">How Accurate Are Our Predictions?</h5>
                                     </div>
                                     <div class="card-body p-0 graph-container">
-                                        <img src="{{ url_for('static', filename=viz.file) }}" class="img-fluid" alt="{{ viz.title }}">
-                                        
-                                        {% if viz.file == 'real_vs_predicted.png' %}
+                                        <img src="{{ url_for('static', filename='real_vs_predicted.png') }}" class="img-fluid rounded" alt="Real vs Predicted Prices">
                                         <div class="visualization-explanation">
                                             <h6><i class="fas fa-info-circle me-2"></i>What This Graph Shows</h6>
-                                            <p class="mb-0">Each dot represents a house. The closer dots are to the red line, the more accurate our prediction. Most dots are close to the line, showing our predictions are usually accurate.</p>
+                                            <p>Each blue dot represents a house. The red line shows perfect prediction (where predicted price = actual price).</p>
+                                            <ul class="mb-0">
+                                                <li>Dots close to the red line = accurate predictions</li>
+                                                <li>Dots above the line = we predicted higher than actual price</li>
+                                                <li>Dots below the line = we predicted lower than actual price</li>
+                                            </ul>
                                         </div>
-                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            {% endfor %}
+                            
+                            <!-- Bar Chart Tab (Feature Importance) -->
+                            <div class="tab-pane fade" id="bar-content" role="tabpanel" aria-labelledby="bar-tab">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-success text-white">
+                                        <h5 class="mb-0">What Factors Matter Most?</h5>
+                                    </div>
+                                    <div class="card-body p-0 graph-container">
+                                        <img src="{{ url_for('static', filename='feature_importance.png') }}" class="img-fluid rounded" alt="Feature Importance">
+                                        <div class="visualization-explanation">
+                                            <h6><i class="fas fa-info-circle me-2"></i>What This Graph Shows</h6>
+                                            <p class="mb-0">This chart shows which factors have the biggest impact on house prices. Longer bars mean that factor has more influence on the predicted price. For example, if "Median Income" has the longest bar, it means the neighborhood's income level is the strongest predictor of house prices.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Heatmap Tab (Correlation Matrix) -->
+                            <div class="tab-pane fade" id="heatmap-content" role="tabpanel" aria-labelledby="heatmap-tab">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-info text-white">
+                                        <h5 class="mb-0">How Features Relate to Each Other</h5>
+                                    </div>
+                                    <div class="card-body p-0 graph-container">
+                                        <img src="{{ url_for('static', filename='correlation_heatmap.png') }}" class="img-fluid rounded" alt="Correlation Heatmap">
+                                        <div class="visualization-explanation">
+                                            <h6><i class="fas fa-info-circle me-2"></i>What This Graph Shows</h6>
+                                            <p class="mb-0">This heatmap shows how different factors relate to each other. Darker blue squares indicate strong positive relationships (when one factor increases, the other tends to increase too). Darker red squares show negative relationships (when one factor increases, the other tends to decrease). Look at the row or column labeled "PRICE" to see which factors correlate most with house prices.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Histogram Tab (Error Distribution) -->
+                            <div class="tab-pane fade" id="histogram-content" role="tabpanel" aria-labelledby="histogram-tab">
+                                <div class="card border-0 shadow-sm">
+                                    <div class="card-header bg-warning text-dark">
+                                        <h5 class="mb-0">How Accurate Are We Overall?</h5>
+                                    </div>
+                                    <div class="card-body p-0 graph-container">
+                                        <img src="{{ url_for('static', filename='error_distribution.png') }}" class="img-fluid rounded" alt="Error Distribution">
+                                        <div class="visualization-explanation">
+                                            <h6><i class="fas fa-info-circle me-2"></i>What This Graph Shows</h6>
+                                            <p class="mb-0">This chart shows the distribution of prediction errors (the difference between predicted and actual prices). The tall peak centered near zero means most of our predictions are very close to the actual prices. The narrower this distribution, the more accurate our model is overall.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

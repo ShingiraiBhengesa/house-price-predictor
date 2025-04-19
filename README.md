@@ -1,214 +1,147 @@
 # House Price Predictor
 
-![House Price Predictor](https://img.shields.io/badge/ML-House%20Price%20Predictor-blue)
-![Python](https://img.shields.io/badge/Python-3.x-green)
-![Flask](https://img.shields.io/badge/Flask-Web%20App-red)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-Machine%20Learning-orange)
-
-A web application that predicts house prices in California using machine learning. This project uses the California Housing Dataset and implements a Random Forest Regression model to provide accurate price predictions based on various housing features.
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Model Information](#model-information)
-- [Installation](#installation)
-- [Usage](#usage)
-- [User Interface](#user-interface)
-- [Model Performance](#model-performance)
-- [Technologies Used](#technologies-used)
-- [Future Improvements](#future-improvements)
-- [License](#license)
+![House Price Predictor](static/real_vs_predicted.png)
 
 ## Overview
 
-This application allows users to input various housing characteristics such as median income, house age, average rooms, population, and geographic coordinates to predict the median house value in a neighborhood. The prediction model is trained on the California Housing Dataset using a Random Forest Regressor algorithm.
-
-The web interface provides an intuitive form for entering housing details and displays the predicted price along with confidence metrics and visualizations of the model's performance.
+House Price Predictor is a web application that uses machine learning to estimate house prices in California based on various features such as location, house characteristics, and neighborhood information. The application provides an intuitive, user-friendly interface that allows users to input details about a house and receive an estimated price.
 
 ## Features
 
-- **User-friendly Web Interface**: Clean, responsive design with Bootstrap
-- **Real-time Predictions**: Instant house price predictions based on user inputs
-- **Simplified Input Form**: Easy-to-understand options with helpful descriptions
-- **Data Validation**: Input validation with helpful tooltips and typical value ranges
-- **Confidence Metrics**: Displays prediction confidence and feature importance
-- **Interactive Visualizations**: Shows model performance with clear explanations
-- **Responsive Design**: Works on desktop and mobile devices
+- **User-Friendly Interface**: Simple, intuitive design with clear instructions and form inputs
+- **Dropdown Selections**: Easy-to-use dropdown menus instead of numeric inputs for better user experience
+- **Interactive Visualizations**: Multiple visualization types to help understand the prediction model
+- **Detailed Results**: Provides confidence levels and feature importance for each prediction
+- **Responsive Design**: Works well on both desktop and mobile devices
 
-## Project Structure
+## Visualizations
 
-```
-house-price-predictor/
-├── app.py                  # Flask web application
-├── main.py                 # Model training script
-├── house_model.pkl         # Trained Random Forest model
-├── scaler.pkl              # Feature scaler for data preprocessing
-├── real_vs_predicted.png   # Model performance visualization
-├── static/                 # Static files (images, CSS)
-│   └── real_vs_predicted.png
-├── templates/              # HTML templates
-│   └── index.html          # Main web interface
-└── README.md               # Project documentation
-```
+The application includes several data visualizations to help users understand the prediction model:
 
-## Model Information
+1. **Accuracy Visualization**: Shows how the model's predictions compare to actual house prices
+2. **Feature Importance**: Displays which factors have the biggest impact on house prices
+3. **Correlation Heatmap**: Shows how different features relate to each other
+4. **Error Distribution**: Illustrates the distribution of prediction errors
 
-The prediction model uses a **Random Forest Regressor** algorithm trained on the California Housing Dataset. The model:
-
-- Uses 8 input features (median income, house age, average rooms, etc.)
-- Was trained with hyperparameter tuning using GridSearchCV
-- Achieves high accuracy with low prediction error
-- Provides feature importance analysis
-
-### Features Used
-
-| Feature | Description | Typical Range |
-|---------|-------------|---------------|
-| MedInc | Median income in block group (in tens of thousands) | 1.0 - 15.0 |
-| HouseAge | Median house age in block group (in years) | 1 - 50 |
-| AveRooms | Average number of rooms per household | 3.0 - 10.0 |
-| AveBedrms | Average number of bedrooms per household | 1.0 - 4.0 |
-| Population | Block group population | 100 - 5000 |
-| AveOccup | Average number of household members | 1.0 - 6.0 |
-| Latitude | Block group latitude coordinate | 32.0 - 42.0 |
-| Longitude | Block group longitude coordinate | -124.0 - -114.0 |
+![Feature Importance](static/feature_importance.png)
 
 ## Installation
 
 ### Prerequisites
 
-- Python 3.6+
+- Python 3.7+
 - pip (Python package installer)
 
 ### Setup
 
 1. Clone the repository:
-   ```bash
+   ```
    git clone https://github.com/yourusername/house-price-predictor.git
    cd house-price-predictor
    ```
 
-2. Create and activate a virtual environment (optional but recommended):
-   ```bash
-   python -m venv venv
-   # On Windows
-   venv\Scripts\activate
-   # On macOS/Linux
-   source venv/bin/activate
+2. Install the required packages:
+   ```
+   pip install -r requirements.txt
    ```
 
-3. Install the required packages:
-   ```bash
-   pip install flask numpy pandas scikit-learn matplotlib seaborn joblib
+3. Run the application:
+   ```
+   python app.py
+   ```
+
+4. Open your web browser and navigate to:
+   ```
+   http://127.0.0.1:5000
    ```
 
 ## Usage
 
-### Training the Model
+1. Fill in the form with details about the house:
+   - Neighborhood income level
+   - House age
+   - Number of rooms and bedrooms
+   - Population density
+   - Household size
+   - Location in California
 
-If you want to retrain the model with the latest data:
-
-```bash
-python main.py
-```
-
-This script:
-1. Loads the California Housing Dataset
-2. Preprocesses the data and performs feature scaling
-3. Trains a Random Forest model with hyperparameter tuning
-4. Evaluates the model performance
-5. Generates visualizations
-6. Saves the trained model and scaler
-
-### Running the Web Application
-
-To start the web application:
-
-```bash
-python app.py
-```
-
-Then open your web browser and navigate to:
-```
-http://127.0.0.1:5000
-```
-
-### Making Predictions
-
-1. Fill in the house details using the simplified form
 2. Click the "Get Price Estimate" button
-3. View the predicted price and additional information
 
-## User Interface
+3. View your estimated house price along with:
+   - Confidence level
+   - Factors that influenced the price
+   - Visualizations showing model performance
 
-The application features a user-friendly interface designed to be accessible to all users, regardless of their technical background:
+![Correlation Heatmap](static/correlation_heatmap.png)
 
-### Key UI Features
+## Technical Details
 
-1. **Step-by-Step Guidance**: Clear instructions guide users through the prediction process
-2. **Simplified Input Options**: Drop-down menus with plain language options instead of technical numeric inputs
-3. **Visual Sections**: Organized sections for different types of information (house details, neighborhood, location)
-4. **Helpful Explanations**: Each input field includes a description of what it means and why it matters
-5. **Location Selection**: Simple region selection for California locations instead of requiring exact coordinates
-6. **Clear Results**: Easy-to-understand prediction results with confidence indicators
-7. **Visualization Explanations**: Plain language descriptions of what the graphs show
+### Machine Learning Model
 
-### Real vs. Predicted Prices Visualization
+The application uses a Linear Regression model trained on the California Housing dataset. The model takes the following features as input:
 
-The application includes a visualization showing how well the model's predictions match actual house prices:
+- Median Income (MedInc)
+- House Age (HouseAge)
+- Average Rooms (AveRooms)
+- Average Bedrooms (AveBedrms)
+- Population (Population)
+- Average Occupancy (AveOccup)
+- Latitude
+- Longitude
 
-![Real vs Predicted](static/real_vs_predicted.png)
+### Data Preprocessing
 
-This graph shows:
-- Each dot represents a house
-- The red line represents perfect prediction (where predicted price = actual price)
-- Dots close to the line indicate accurate predictions
-- Most dots cluster near the line, showing the model's predictions are generally accurate
+- Features are scaled using StandardScaler
+- The model is trained on historical California housing data
+- Predictions are in units of $100,000s
 
-## Model Performance
+### Visualization Generation
 
-The Random Forest model achieves excellent performance metrics:
+The application includes a script (`generate_visualizations.py`) that creates various visualizations to help understand the model:
 
-- **RMSE (Root Mean Squared Error)**: Measures the average prediction error
-  - Training RMSE: Lower values indicate better fit
-  - Testing RMSE: Measures prediction accuracy on new data
-  
-- **R² (R-squared)**: Indicates how well the model fits the data
-  - Values closer to 1 indicate better fit
-  - The model achieves high R² values on both training and test data
+- Real vs. Predicted scatter plot
+- Feature importance bar chart
+- Correlation heatmap
+- Error distribution histogram
 
-- **Cross-validation**: Ensures the model generalizes well to new data
-  - 5-fold cross-validation was used to validate model performance
+![Error Distribution](static/error_distribution.png)
 
-The Random Forest model significantly outperforms a baseline Linear Regression model, with improvements in both accuracy and reliability.
+## Project Structure
 
-## Technologies Used
-
-- **Python**: Core programming language
-- **Flask**: Web framework for the application
-- **scikit-learn**: Machine learning library for model training
-- **pandas**: Data manipulation and analysis
-- **NumPy**: Numerical computing
-- **Matplotlib & Seaborn**: Data visualization
-- **Bootstrap**: Frontend framework for responsive design
-- **HTML/CSS/JavaScript**: Web interface
+```
+house-price-predictor/
+├── app.py                  # Flask application
+├── house_model.pkl         # Trained machine learning model
+├── scaler.pkl              # Feature scaler
+├── generate_visualizations.py  # Script to generate visualizations
+├── static/                 # Static files (CSS, images)
+│   ├── real_vs_predicted.png
+│   ├── feature_importance.png
+│   ├── correlation_heatmap.png
+│   └── error_distribution.png
+├── templates/              # HTML templates
+│   └── index.html          # Main application page
+└── README.md               # Project documentation
+```
 
 ## Future Improvements
 
-- Add more advanced models for comparison (XGBoost, Neural Networks)
-- Implement feature engineering to improve prediction accuracy
-- Add geographic visualization of predictions on a map
-- Create a user account system to save prediction history
-- Expand the dataset with more recent housing data
-- Add time-series analysis to track price trends
-- Implement a RESTful API for integrating with other applications
+- Add more advanced machine learning models (Random Forest, Gradient Boosting)
+- Implement user accounts to save previous predictions
+- Add comparison feature to compare multiple house price estimates
+- Include more detailed location data (school districts, crime rates, etc.)
+- Add time-series analysis to show price trends over time
+- Implement interactive maps for location selection
+
+## Credits
+
+- California Housing dataset
+- Flask web framework
+- Scikit-learn for machine learning
+- Pandas and NumPy for data processing
+- Matplotlib and Seaborn for visualizations
+- Bootstrap for frontend styling
 
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-Created with ❤️ for machine learning and data science enthusiasts
