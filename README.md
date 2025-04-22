@@ -142,6 +142,3 @@ house-price-predictor/
 - Matplotlib and Seaborn for visualizations
 - Bootstrap for frontend styling
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
